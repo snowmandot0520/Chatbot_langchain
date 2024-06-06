@@ -22,7 +22,7 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen mx-auto">
+    <div className="flex flex-col h-screen w-full mx-auto">
       <div className="px-20 py-14">
         <h1 className="text-4xl font-bold mb-4">Chat with Medical LLM</h1>
         <p className="text-lg mb-4">
@@ -31,7 +31,7 @@ const ChatPage = () => {
           The LLM is trained to specifically help you with your health concerns.
         </p>
 
-        <div className="w-full mx-auto flex flex-col items-center">
+        <div className="w-full mx-auto flex flex-col items-center mb-56">
           <textarea
             className="w-full max-w-3xl text-black bg-gray-100 border border-gray-300 rounded-lg p-4 mb-4 resize-none"
             rows="8"
@@ -51,6 +51,15 @@ const ChatPage = () => {
             </div>
           )}
         </div>
+
+        <button
+          className="w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 transition-all duration-150 ease-in"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          Back
+        </button>
       </div>
     </div>
   );
