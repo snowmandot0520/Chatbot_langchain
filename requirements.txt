@@ -1,3 +1,16 @@
 Django~=5.0.6
 decouple~=0.0.7
 python-decouple==3.8
+pypdf==4.2.0
+python-dotenv==1.0.1
+transformers==4.41.2
+einops==0.8.0
+accelerate==0.30.1
+langchain==0.2.2
+bitsandbytes==0.42.0
+sentence-transformers==3.0.0
+accelerate==0.30.1
+llama-index==0.10.43
+llama-index-llms-huggingface==0.2.3
+llama-index-embeddings-langchain==0.1.2
+torch~=2.3.1
