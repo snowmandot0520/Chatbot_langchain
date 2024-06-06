@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chat with our LLM</h1>
+    <form id="chat-form">
+        <label for="question">Ask a question:</label>
+        <input type="text" id="question" name="question">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="response-box"></div>
+
+    <script>
+        $(document).ready(function(){
+            $('#chat-form').on('submit', function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "chat" %}',
+                    data: {
+                        'question': $('#question').val(),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response){
+                        $('#response-box').html('<p>' + response.response + '</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
