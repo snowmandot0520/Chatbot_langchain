@@ -14,3 +14,5 @@ llama-index==0.10.43
 llama-index-llms-huggingface==0.2.3
 llama-index-embeddings-langchain==0.1.2
 torch~=2.3.1
+langchain-huggingface==0.0.3
+sentencepiece==0.2.0
