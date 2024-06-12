@@ -2,7 +2,7 @@ Django~=5.0.6
 decouple~=0.0.7
 python-decouple==3.8
 pypdf==4.2.0
-python-dotenv==1.0.1
+python-dotenv~=1.0.1
 transformers==4.41.2
 einops==0.8.0
 accelerate==0.30.1
@@ -16,4 +16,3 @@ llama-index-embeddings-langchain==0.1.2
 torch~=2.3.1
 langchain-huggingface==0.0.3
 sentencepiece==0.2.0
-python-dotenv~=1.0.1
