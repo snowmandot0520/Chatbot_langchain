@@ -6,12 +6,21 @@ from llama_index.core import VectorStoreIndex, PromptTemplate, Settings
 import torch
 from llama_index.llms.huggingface import HuggingFaceLLM
 from IPython.display import HTML, display
+from dotenv import load_dotenv
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
 """Hugging Face Login"""
-os.environ["HF_KEY"] = "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"
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the API key from the environment
+hf_key = os.getenv("HF_KEY")
+if hf_key is None:
+    raise ValueError("HF_KEY is not set in the environment.")
+os.environ["HF_KEY"] = hf_key
+
 login(token=os.environ.get('HF_KEY'),add_to_git_credential=True)
 
 # Specify the directory containing the papers
