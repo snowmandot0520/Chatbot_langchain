@@ -24,6 +24,8 @@ papers/*/
 *.njsproj
 *.sln
 *.sw?
+*.pkl
+*.safetensors
 
 .venv
 venv
