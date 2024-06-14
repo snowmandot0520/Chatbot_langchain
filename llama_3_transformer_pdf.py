@@ -1,4 +1,7 @@
 import os, logging, sys, psutil
+import joblib
+import pickle
+import json
 from huggingface_hub import login
 from llama_index.core import SimpleDirectoryReader
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
@@ -7,6 +10,7 @@ import torch
 from llama_index.llms.huggingface import HuggingFaceLLM
 from IPython.display import HTML, display
 from dotenv import load_dotenv
+from transformers import AutoModel, AutoTokenizer, AutoModelForCausalLM
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
@@ -154,3 +158,48 @@ while not done:
   response = query_engine.query(question)
   print(response)
   done = input("End the chat? (y/n): ") == "y"
+
+
+# Function to save components
+def save_model_components(index, embed_model, llm, path):
+    os.makedirs(path, exist_ok=True)
+
+    # Save the vector index
+    index_save_path = str(path + "/vector_index")
+    os.makedirs(index_save_path, exist_ok=True)
+    index_file_path = os.path.join(index_save_path, "index.pkl")
+    with open(index_file_path, "wb") as f:
+        pickle.dump(index, f)
+
+    # Save the embedding model
+    embed_model_path = os.path.join(path, 'embedding_model.pkl')
+    joblib.dump(embed_model, embed_model_path)
+
+    # Save LLM model
+    model = AutoModelForCausalLM.from_pretrained(LLM_MODEL_NAME, max_memory=4.0)
+    model.save_pretrained(os.path.join(path, 'llm_model'))
+
+    # Save the LLM tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL_NAME, 
+        max_memory=4.0)
+    tokenizer.save_pretrained(os.path.join(path, 'llm_tokenizer'))
+
+    # Save the LLM configuration
+    llm_config_path = os.path.join(path, "llm_config.json")
+    llm_config = {
+        "context_window": llm.context_window,
+        "max_new_tokens": llm.max_new_tokens,
+        "generate_kwargs": llm.generate_kwargs,
+        "system_prompt": llm.system_prompt,
+        "query_wrapper_prompt": str(llm.query_wrapper_prompt),
+        "tokenizer_name": llm.tokenizer_name,
+        "model_name": llm.model_name,
+        "device_map": llm.device_map,
+        "model_kwargs": llm.model_kwargs,
+    }
+    with open(llm_config_path, "w") as f:
+        json.dump(llm_config, f)
+
+# Save the model components
+save_path = "llama_3_model"
+save_model_components(index, embed_model, llm, save_path)
