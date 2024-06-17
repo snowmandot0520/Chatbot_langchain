@@ -1,142 +1,110 @@
-# import os, logging, sys
-# import logging
-# import psutil
-# import torch
-# from huggingface_hub import login
-# from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, PromptTemplate, Settings
-# from langchain_huggingface import HuggingFaceEmbeddings
-# from transformers import AutoModelForCausalLM, AutoTokenizer
-# from llama_index.llms.huggingface import HuggingFaceLLM
+import json
+import os
+import pickle
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from llama_index.core import VectorStoreIndex, PromptTemplate, Settings
+from llama_index.llms.huggingface import HuggingFaceLLM
+from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 
-# logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-# logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
+# Load the vector index
+directory_path = "./models/"
+index_file_path = os.path.join(directory_path, "index.pkl")
 
-# os.environ["HF_KEY"] = "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"
-# login(token=os.environ.get('HF_KEY'),add_to_git_credential=True)
+with open(index_file_path, "rb") as f:
+    index = pickle.load(f)
 
-# # Configure logging
-# logging.basicConfig(filename='pdf_errors.log', level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
+print(f"Index loaded from {index_file_path}")
 
-# # Specify the directory containing the papers
-# papers_directory = "papers/"
+# Load the model and tokenizer
+LLM_MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
+model_save_path = os.path.join(directory_path, "llm_model")
+tokenizer_save_path = os.path.join(directory_path, "llm_tokenizer")
 
-# # Function to find all PDF files in a directory and its subdirectories
-# def find_all_pdfs(directory):
-#     pdf_files = []
-#     for root, _, files in os.walk(directory):
-#         for file in files:
-#             if file.endswith('.pdf'):
-#                 pdf_files.append(os.path.join(root, file))
-#                 print(f"Found PDF file: {os.path.join(root, file)}")
-#     return pdf_files
+model = AutoModelForCausalLM.from_pretrained(model_save_path)
+tokenizer = AutoTokenizer.from_pretrained(tokenizer_save_path)
 
-# # Get a list of all PDF files in the directory and its subdirectories
-# pdf_files = find_all_pdfs(papers_directory)
+print("Model and tokenizer loaded.")
 
-# # Initialize the documents list
-# documents = []
+# Load the embedding model
+embedding_model_path = os.path.join(directory_path, "embedding_model_cpu.pkl")
 
-# # Function to check memory usage
-# def check_memory_usage(threshold=80):
-#     memory = psutil.virtual_memory()
-#     return memory.percent < threshold
+with open(embedding_model_path, "rb") as f:
+    embed_model = pickle.load(f)
 
+print("Embedding model loaded.")
 
-# # Batch size for processing PDF files
-# batch_size = 10
+# Load LLM configuration from JSON file
+config_file_path = os.path.join(directory_path, "llm_config.json")
 
-# # Process PDF files in batches
-# for i in range(0, len(pdf_files), batch_size):
-#     if not check_memory_usage():
-#         logging.warning("Memory usage is high, pausing processing.")
-#         break
-#     batch = pdf_files[i:i+batch_size]
-#     for pdf_file in batch:
-#         try:
-#             reader = SimpleDirectoryReader(input_dir=os.path.dirname(pdf_file), required_exts=".pdf").load_data()
-#             documents.extend(reader)
-#         except Exception as e:
-#             logging.warning(f"Failed to read {pdf_file}: {e}")
+with open(config_file_path, "r") as f:
+    llm_config = json.load(f)
 
-# # Print the first document
-# if documents:
-#     print("████████████████████████████████████████████████████████████████████████████████████████████████")
-#     print(documents[0])
-# else:
-#     print("No documents found.")
+# Configure the Settings object
+Settings.embed_model = embed_model
+Settings.llm = HuggingFaceLLM(
+    model=model,
+    tokenizer=tokenizer,
+    context_window=llm_config["context_window"],
+    max_new_tokens=llm_config["max_new_tokens"],
+    generate_kwargs=llm_config["generate_kwargs"],
+    system_prompt=llm_config["system_prompt"],
+    query_wrapper_prompt=PromptTemplate(template=llm_config["query_wrapper_prompt"]["template"]),
+)
+Settings.chunk_size = 1024
 
+print("Settings configured.")
 
-# EMBEDDING_MODEL_NAME = "sentence-transformers/multi-qa-MiniLM-L6-cos-v1"
+# Combine retrieval with generation
+class RAGQueryEngine:
+    def __init__(self, retrieval_engine, llm):
+        self.retrieval_engine = retrieval_engine
+        self.llm = llm
 
-# embed_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
-
-
-# index = VectorStoreIndex.from_documents(documents, embed_model = embed_model)
-
-# system_prompt = """<|SYSTEM|># You are an AI-enabled medical research assistant.
-# Your goal is to answer questions accurately using only the context provided.
-# """
-
-# # This will wrap the default prompts that are internal to llama-index
-# query_wrapper_prompt = PromptTemplate("<|USER|>{query_str}<|ASSISTANT|>")
-
-# LLM_MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
-
-# # Initialize the tokenizer
-# tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL_NAME)
-
-# # Check if CUDA is available and set device accordingly
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# # Load the model with the appropriate device map
-# model = AutoModelForCausalLM.from_pretrained(LLM_MODEL_NAME, device_map=device)
-
-# # Create the HuggingFaceLLM instance with the loaded model and tokenizer
-# llm = HuggingFaceLLM(
-#     context_window=4096,
-#     max_new_tokens=512,
-#     generate_kwargs={"temperature": 0.1, "do_sample": False},
-#     system_prompt=system_prompt,
-#     query_wrapper_prompt=query_wrapper_prompt,
-#     model=model,
-#     tokenizer=tokenizer,
-#     # Uncomment and set torch_dtype if using CUDA to reduce memory usage
-#     # model_kwargs={"torch_dtype": torch.float16}
-# )
-
-# # Print some information to confirm
-# print("Model loaded successfully")
-
-# Settings.embed_model = embed_model
-# Settings.llm = llm
-# Settings.chunk_size = 1024
-# #Settings.chunk_overlap = 256
-
-# query_engine = index.as_query_engine(llm=llm, similarity_top_k=5)
+    def query(self, question):
+        # Retrieve relevant documents
+        relevant_docs = self.retrieval_engine.query(question)
+        # Use retrieved documents as context for generation
+        context = "\n".join([doc.text for doc in relevant_docs])
+        prompt = f"{self.llm.system_prompt}\n\n{context}\n\n{self.llm.query_wrapper_prompt.format(query_str=question)}"
+        return self.llm.generate(prompt)
 
 
-# # Debugging: print the number of documents and embeddings
-# # print(f"Number of documents: {len(documents)}")
-# # print(f"Index embeddings: {len(index.docstore.index_to_docstore_id)}")
+# Initialize the RAG query engine
+retrieval_engine = index.as_query_engine(similarity_top_k=5)
+rag_query_engine = RAGQueryEngine(retrieval_engine, Settings.llm)
 
+print("RAG query engine set up.")
 
-# # def set_css():
-# #   display(HTML('''
-# #   <style>
-# #     pre {
-# #         white-space: pre-wrap;
-# #     }
-# #   </style>
-# #   '''))
-# # get_ipython().events.register('pre_run_cell', set_css)
+# Using the RAGQueryEngine for querying
+done = False
+while not done:
+    print("*" * 30)
+    question = input("Enter your question: ")
+    response = rag_query_engine.query(question)
+    print(response)
+    done = input("End the chat? (y/n): ") == "y"
 
+# from safetensors import safe_open
 
-# done = False
-# while not done:
-#   print("*"*30)
-#   question = input("Enter your question: ")
-#   response = query_engine.query(question)
-#   # Debugging: print the raw response
-#   print(f"Raw Response: {response}")
-#   print(response)
-#   done = input("End the chat? (y/n): ") == "y"
+# model_save_path = "./models/llm_model"
+
+# # List all safetensor files
+# shard_files = [
+#     "model-00001-of-00006.safetensors",
+#     "model-00002-of-00006.safetensors",
+#     "model-00003-of-00006.safetensors",
+#     "model-00004-of-00006.safetensors",
+#     "model-00005-of-00006.safetensors",
+#     "model-00006-of-00006.safetensors",
+# ]
+
+# # Try loading each shard separately
+# for shard in shard_files:
+#     shard_path = f"{model_save_path}/{shard}"
+#     try:
+#         # Attempt to load the shard
+#         with safe_open(shard_path, framework="pt") as f:
+#             print(f"{shard} loaded successfully.")
+#     except Exception as e:
+#         print(f"Failed to load {shard}: {e}")
