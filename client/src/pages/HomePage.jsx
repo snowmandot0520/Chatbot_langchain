@@ -1,6 +1,6 @@
 const HomePage = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="h-screen flex flex-col justify-center mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-4">Welcome to Revlis Chat</h1>
       <p className="text-lg mb-4">
         Chinese Lorem Ipsum lol:
@@ -12,7 +12,7 @@ const HomePage = () => {
       </p>
       <a
         href="/chat"
-        className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="inline-block w-1/6 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded"
       >
         Start Chat
       </a>

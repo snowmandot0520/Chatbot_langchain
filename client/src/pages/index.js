@@ -1,4 +1,5 @@
 import HomePage from "./HomePage";
 import ChatPage from "./ChatPage";
+import ErrorPage from "./ErrorPage";
 
-export { HomePage, ChatPage };
+export { HomePage, ChatPage, ErrorPage };

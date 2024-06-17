@@ -31,7 +31,7 @@ const ChatPage = () => {
           The LLM is trained to specifically help you with your health concerns.
         </p>
 
-        <div className="w-full mx-auto flex flex-col items-center mb-56">
+        <div className="w-full mx-auto flex flex-col mb-56">
           <textarea
             className="w-full max-w-3xl text-black bg-gray-100 border border-gray-300 rounded-lg p-4 mb-4 resize-none"
             rows="8"
@@ -40,7 +40,7 @@ const ChatPage = () => {
             onChange={(e) => setMessage(e.target.value)}
           ></textarea>
           <button
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 transition-all duration-150 ease-in"
+            className="w-[765px] h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 transition-all duration-150 ease-in"
             onClick={handleSend}
           >
             Send
@@ -53,7 +53,7 @@ const ChatPage = () => {
         </div>
 
         <button
-          className="w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 transition-all duration-150 ease-in"
+          className="w-36 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 transition-all duration-150 ease-in"
           onClick={() => {
             window.location.href = "/";
           }}
