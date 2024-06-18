@@ -24,8 +24,7 @@ models/
 ├── llm_tokenizer/
 │ ├── tokenizer.model
 │ ├── special_tokens_map.json
-│ ├── tokenizer_config.json
-│ └── vocab.txt
+│ └── tokenizer_config.json
 │
 ├── index.pkl
 ├── embedding_model_cpu.pkl
