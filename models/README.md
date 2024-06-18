@@ -6,6 +6,7 @@ I can just load it locally, then run my queries on the saved model.
 
 ### Folder Structure
 
+```
 models/
 │
 ├── index.pkl
@@ -29,6 +30,7 @@ models/
 ├── index.pkl
 ├── embedding_model_cpu.pkl
 └── llm_config.json
+```
 
 ### Explanation of the Folder Structure:
 
