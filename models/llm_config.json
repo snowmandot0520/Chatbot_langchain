@@ -3,7 +3,9 @@
   "max_new_tokens": 512,
   "generate_kwargs": { "temperature": 0.1, "do_sample": false },
   "system_prompt": "<|SYSTEM|># You are an AI-enabled admin assistant.\nYour goal is to answer questions accurately using only the context provided.\n",
-  "query_wrapper_prompt": "metadata={'prompt_type': <PromptType.CUSTOM: 'custom'>} template_vars=['query_str'] kwargs={} output_parser=None template_var_mappings=None function_mappings=None template='<|USER|>{query_str}<|ASSISTANT|>'",
+  "query_wrapper_prompt": {
+    "template": "{query_str}"
+  },
   "tokenizer_name": "meta-llama/Llama-2-7b-chat-hf",
   "model_name": "meta-llama/Llama-2-7b-chat-hf",
   "device_map": "auto",
