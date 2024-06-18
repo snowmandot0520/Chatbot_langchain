@@ -9,7 +9,6 @@ I can just load it locally, then run my queries on the saved model.
 ```
 models/
 │
-├── index.pkl
 ├── llm_model/
 │ ├── config.json
 │ ├── model.safetensors.index.json
