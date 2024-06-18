@@ -1,4 +1,4 @@
-# LLM Chatbot using fine-tuned LLaMA-2 model with PDF Data
+# LLM Chatbot from LLaMA-2 model fine-tuned with PDF data
 
 This project utilizes HuggingFace's pretrained LLM `meta-llama/Llama-2-7b-chat-hf`, fine-tuned with PDF data, to generate accurate responses to queries.
 
@@ -14,7 +14,7 @@ The original article would run the vector embedding and model creation everytime
 
 ## Saving the model
 
-Running _llama_2_transformer_pdf.py_ will save the model locally. I'll breifly go over how this works:
+Running _llama_2_transformer_pdf.py_ will save the model locally. I'll briefly go over how this works:
 
 #### Prepare PDF documents
 
@@ -46,6 +46,14 @@ Running _llama_2_transformer_pdf.py_ will save the model locally. I'll breifly g
 ## Chatbot web-application (In progress)
 
 I used Django and React to create a simple web application as the interface for the chatbot. Users would be able to type their question in the textbox and recieve a response from the model, shown when they click send.
+
+#### Run Django Server
+
+I added a script in _manage.py_ to automatically build the React frontend with Vite before starting the Django server, so you don't need to run `npm run build` everytime.
+
+```
+python manage.py runserver
+```
 
 ## Dependencies
 
