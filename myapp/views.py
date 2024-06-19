@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from run_model import generate_response, model, tokenizer
 
 @csrf_exempt
 def chat_view(request):
@@ -10,8 +11,9 @@ def chat_view(request):
         try:
             data = json.loads(request.body)
             message = data.get('message', '')
-            # Process the message (e.g., pass it to your LLM chatbot)
-            response = {'message': message}
+            # Process the message with your LLM model
+            response_text = generate_response(model, tokenizer, message)
+            response = {'message': response_text}
             return JsonResponse(response)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
