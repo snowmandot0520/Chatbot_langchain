@@ -33,8 +33,10 @@ const ChatPage = () => {
     <HeroHighlight>
       <div className="relative flex flex-col h-screen w-full mx-auto overflow-hidden">
         <div className="px-20 py-14 flex-grow">
-          <h1 className="text-4xl font-bold mb-4">Chat with Medical LLM</h1>
-          <p className="text-lg mb-4">
+          <h1 className="text-4xl font-bold mb-4 font-mono">
+            Chat with Medical LLM
+          </h1>
+          <p className="text-md mb-4 font-mono">
             Ask questions about your health, get advice, and more.
             <br />
             The LLM is trained to specifically help you with your health
