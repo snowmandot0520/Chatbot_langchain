@@ -5,9 +5,9 @@ const ErrorPage = () => {
 
   return (
     <HeroHighlight>
-      <div className="h-screen flex flex-col justify-center items-center mx-auto px-4 py-8">
+      <div className="h-screen flex flex-col justify-center items-center mx-auto px-4 py-8 font-mono">
         <h1 className="text-6xl font-bold mb-4 text-white">Error 404</h1>
-        <p className="text-lg mb-4">Page Not Found</p>
+        <p className="text-xl mb-4">Page Not Found</p>
         <button
           className={`w-3/4 relative inline-flex h-11 overflow-hidden rounded-lg p-[1px] ${focusStyles}`}
           onClick={() => (window.location.href = "/")}
