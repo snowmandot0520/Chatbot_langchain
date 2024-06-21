@@ -1,22 +1,43 @@
+import { HeroHighlight, HackerText } from "../components";
+
 const HomePage = () => {
+  const focusStyles =
+    "focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50";
+
   return (
-    <div className="h-screen flex flex-col justify-center mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Revlis Chat</h1>
-      <p className="text-lg mb-4">
-        Chinese Lorem Ipsum lol:
-        <br />
-        巴朋登，鳥林子交合秋林根您乞笑色歌別歡抄錯，門尺見泉童可打真紅左服送跑玩甲馬示水亮，車記太月共弓中點欠荷說浪田視壯叫，空完蛋教流肖唱能杯急候沒童亭，民晚木。
-        太洋給久誰封，哭現是上沒公時抄刃助布花斗布尼隻兌洋交送，村話回車民穴實爸干們貓禾畫又珠洋經語，旁玉言急南馬游胡服旁京哪，男兩跳巴荷假唱竹右斥天物即節蝸裝，平比入意不二給節民媽朵，幾尼花。
-        直苦停植課。冬裝那尾言反南亭氣房太可，吉怕外聲別尼和四，怎掃民目用點「斥」風交蝶飯神頁雨哥。乾吉放彩，歡草且。
-        還牙比幾節工空旁言壯，吧占重面頭忍女那往弓黑寫能節夕士共，才了工位真飽占三夏斤年包，五入兄村人經這高圓苗白力日好事力、兄飽向哭巴路員氣發。
-      </p>
-      <a
-        href="/chat"
-        className="inline-block w-1/6 bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded"
-      >
-        Start Chat
-      </a>
-    </div>
+    <HeroHighlight>
+      <div className="h-screen flex flex-col justify-center mx-auto px-4 py-8">
+        <HackerText
+          text="Welcome to Revlis Chat"
+          styles="text-4xl font-bold mb-4"
+        ></HackerText>
+        {/* <h1 className="text-4xl font-bold mb-4">Welcome to Revlis Chat</h1> */}
+        <h3 className="text-xl font-[500] font-mono mb-4">
+          Your Personalized Medical Assistant
+        </h3>
+        <p className="text-md mb-4 font-mono w-4/5">
+          Welcome to our state-of-the-art LLM chatbot, powered by cutting-edge
+          technology to provide you with accurate and helpful medical
+          information. Our LLM chatbot is built using the LLaMA-2 model
+          fine-tuned with a vast collection of medical papers, ensuring you get
+          precise and relevant answers to your health-related questions.
+        </p>
+        {/* <button className="z-0 w-1/6 bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded transition-all duration-150 ease-in">
+          <span className="inline-block text-white text-center font-bold">
+            Start Chat
+          </span>
+        </button> */}
+        <button
+          onClick={() => (window.location.href = "/chat")}
+          className={`w-1/4 relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] ${focusStyles}`}
+        >
+          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 hover:bg-[#050c2e] transition-all duration-150 ease-in px-3 py-1 text-md font-bold text-white backdrop-blur-3xl">
+            Start Chat
+          </span>
+        </button>
+      </div>
+    </HeroHighlight>
   );
 };
 

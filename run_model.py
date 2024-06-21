@@ -116,12 +116,19 @@ def generate_response(model, tokenizer, question):
 
         log_time("Generating response...")
         start_time = time.time()
-        output = model.generate(**inputs, max_new_tokens=30, pad_token_id=tokenizer.eos_token_id)
+        # output = model.generate(**inputs, max_new_tokens=50, pad_token_id=tokenizer.eos_token_id)
+
+        output = model.generate(
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            max_new_tokens=50,
+            pad_token_id=tokenizer.eos_token_id,
+        )
         end_time = time.time()
         log_time(f"Response generated in {end_time - start_time:.2f} seconds.")
 
         log_time("Decoding response...")
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        response = tokenizer.decode(output[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True)
         log_time("Response decoded.")
         return response
     except Exception as e:
