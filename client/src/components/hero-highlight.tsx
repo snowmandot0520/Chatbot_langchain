@@ -1,7 +1,23 @@
 "use client";
 import { cn } from "../utils/cn";
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+const colors = [
+  "bg-dot-thick-blue-500",
+  "bg-dot-thick-blue-600",
+  "bg-dot-thick-indigo-500",
+  "bg-dot-thick-indigo-600",
+  "bg-dot-thick-violet-500",
+  "bg-dot-thick-violet-600",
+  "bg-dot-thick-purple-500",
+  "bg-dot-thick-purple-600",
+  "bg-dot-thick-violet-600",
+  "bg-dot-thick-violet-500",
+  "bg-dot-thick-indigo-600",
+  "bg-dot-thick-indigo-500",
+  "bg-dot-thick-blue-600",
+];
 
 export const HeroHighlight = ({
   children,
@@ -14,6 +30,7 @@ export const HeroHighlight = ({
 }) => {
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
   function handleMouseMove({
     currentTarget,
@@ -26,6 +43,18 @@ export const HeroHighlight = ({
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   }
+
+  useEffect(() => {
+    const interval = setInterval(cycleColors, 1500); // 1.5 second interval for color cycling
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
+  function cycleColors() {
+    setCurrentColorIndex((prevIndex) =>
+      prevIndex === colors.length - 1 ? 0 : prevIndex + 1
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -36,7 +65,7 @@ export const HeroHighlight = ({
     >
       <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800 pointer-events-none" />
       <motion.div
-        className="pointer-events-none bg-dot-thick-indigo-500 dark:bg-dot-thick-indigo-500 absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+        className={`pointer-events-none ${colors[currentColorIndex]} absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100`}
         style={{
           WebkitMaskImage: useMotionTemplate`
             radial-gradient(
