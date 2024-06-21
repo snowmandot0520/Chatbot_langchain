@@ -22,11 +22,6 @@ const HomePage = () => {
           fine-tuned with a vast collection of medical papers, ensuring you get
           precise and relevant answers to your health-related questions.
         </p>
-        {/* <button className="z-0 w-1/6 bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded transition-all duration-150 ease-in">
-          <span className="inline-block text-white text-center font-bold">
-            Start Chat
-          </span>
-        </button> */}
         <button
           onClick={() => (window.location.href = "/chat")}
           className={`w-1/4 relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] ${focusStyles}`}

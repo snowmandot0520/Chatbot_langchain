@@ -43,7 +43,7 @@ const ChatPage = () => {
 
           <div className="w-full mx-auto flex flex-col">
             <textarea
-              className="w-full max-w-3xl text-black bg-gray-100 border border-gray-300 rounded-lg p-4 mb-4 resize-none"
+              className="w-full max-w-3xl text-black bg-gray-100 border border-gray-300 rounded-lg p-4 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-violet-300"
               rows="8"
               placeholder="Type your message here..."
               value={message}
