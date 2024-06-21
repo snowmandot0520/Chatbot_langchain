@@ -68,7 +68,7 @@ const ChatPage = () => {
               </span>
             </button>
             {response && (
-              <div className="w-full max-w-3xl text-black mt-4 p-4 bg-gray-100 border border-gray-300 rounded-lg break-words h-48 overflow-y-auto">
+              <div className="w-full max-w-3xl text-black mt-4 p-4 bg-gray-100 border border-gray-300 rounded-lg break-words h-72 overflow-y-auto">
                 {response}
               </div>
             )}
