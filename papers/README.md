@@ -23,6 +23,8 @@
 #### Test Runs:
 
 - 40 tokens - 20.75 seconds
+- 150 tokens - 74.46 seconds, 74.44 seconds, 67.49 seconds
+- 300 tokens - 148.01 seconds, 148.69 seconds
 - 512 tokens - 258.16 seconds (4.3 minutes), 68.52 seconds, 259.83 (4.3305 minutes)
 
 #### Sample Questions and Answers:
