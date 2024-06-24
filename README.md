@@ -57,6 +57,14 @@ I added a script in _manage.py_ to automatically build the React frontend with V
 python manage.py runserver
 ```
 
+## Model Evaluation
+
+I tested the LLM's responses to some sample questions relevant to the pdf papers used in fine-tuning.
+
+I ran the model on both my Macbook Air and Google Collab. Running it on my computer takes significantly longer than running it on Google Collab.
+
+The detailed report of the runtimes and responses from the LLM can be found here: [papers/README.md](papers/README.md)
+
 ## Dependencies
 
 `langchain`, `llama-index`, `transformers`, `torch`, `pypdf`, `python-dotenv`, `einops`, `accelerate`, `bitsandbytes`, `sentence_transformers`, `sentencepiece`, `Django`
