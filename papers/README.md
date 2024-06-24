@@ -28,6 +28,7 @@
 #### Sample Questions and Answers:
 
 Q: What is Atrial Fibrillation?
+
 A:
 
 ```
@@ -66,6 +67,7 @@ AFib can be diagnosed through a variety of
 ```
 
 Q: Can you give me a shorter anwer for what is AFib?
+
 A:
 
 ```
@@ -76,6 +78,7 @@ AFib can be a serious condition, but it can often be treated with medication, ca
 ```
 
 Q: exigt (I made a typo trying to exit the program but it read it in so I'll record its response)
+
 A:
 
 ```
@@ -103,6 +106,7 @@ However, social media also
 ```
 
 Q: How are ECG and Blood Sugar related? Give me a detailed but concise answer.
+
 A:
 
 ```
@@ -115,4 +119,35 @@ The ECG and blood sugar are related in several ways. Here are some of the key co
 5. ECG Changes as a Marker of Diabetes Severity: Some ECG changes, such as ST segment depression or T wave inversion, have been shown to be more common in people with more severe diabetes. These changes may be an indicator of underlying cardiovascular disease and can help healthcare providers identify people with diabetes who may be at higher risk of cardiovascular complications.
 
 In summary, there are several connections between ECG and blood sugar levels, including the relationship between diabetes and heart disease, hyperglycemia and electrolyte imbalance, insul
+```
+
+Q: How does reading ECG signals help in identifying diseases?
+
+A:
+
+```
+Electrocardiogram (ECG) signals are used to diagnose various cardiovascular diseases. Here are some of the ways in which reading ECG signals can help identify diseases:
+
+1. Heart Rhythm Disorders: ECG signals can help identify abnormal heart rhythms, such as atrial fibrillation, ventricular tachycardia, and ventricular fibrillation. These disorders can increase the risk of stroke, heart failure, and other cardiovascular problems.
+2. Coronary Artery Disease: ECG signals can help identify signs of coronary artery disease, such as ST-segment elevation
+```
+
+Q: How does Blood Sugar correlate to a patient's physical health?
+
+A:
+
+```
+Blood sugar, also known as blood glucose, is an essential indicator of a patient's physical health. It is a vital sign that reflects the body's ability to regulate blood sugar levels, which are crucial for maintaining proper bodily functions. In this article, we will discuss how blood sugar correlates with a patient's physical health, including the potential health consequences of high or low blood sugar levels.
+
+1. High Blood Sugar (Hyperglycemia)
+
+High blood sugar, or hyperglycemia, occurs when the body cannot produce or effectively use insulin, leading to elevated blood sugar levels. This can be caused by various factors, including:
+```
+
+Q: Explain what ECG (Electrocardiography) is to a five year old. It should be easy to understand and concise.
+
+A:
+
+```
+"Hey there, little buddy! So, you know how your heart beats and makes you alive? Well, doctors have a special tool called an ECG that can help them see how your heart is working. It's like a special picture of your heartbeat! They place some small stickers on your skin, and then they use a machine to take a picture of your heartbeat. It's very quick and easy, and it helps doctors make sure your heart is working properly. Just like how you have a picture of your face, an ECG is a picture of your heartbeat! Isn't that cool?"
 ```
