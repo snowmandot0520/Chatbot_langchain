@@ -1,15 +1,20 @@
-10 tokens - 14.9108333 minutes
-30 tokens - 73.30466664 minutes (1.2 hours)
-40 tokens - 101.5081667 minutes (1.7 hours)
-50 tokens - 139.3073333 minutes (2.3 hours), 169.658 minutes (2.8 hours)
-
 Run on 2023 MacBook Air
 RAM: 8 GB
 Apple M2 Chip CPU 8 Cores
 Apple M2 Chip GPU 10 Cores
 
-Google Collab
-NVIDIA L4 Tensor Core GPU: 
+Test Runs (runtimes will vary on number of tokens and question asked):
+10 tokens - 14.9108333 minutes
+30 tokens - 73.30466664 minutes (1.2 hours)
+40 tokens - 101.5081667 minutes (1.7 hours), 144.70699998 (2.4 hours)
+50 tokens - 139.3073333 minutes (2.3 hours), 169.658 minutes (2.8 hours)
+
+Run on Google Collab
+NVIDIA L4 Tensor Core GPU
 RAM - 22.5 GB
-System RAM - 53.0 GB
+System RAM - 53.0 GB (28.5 / 53.0 GB)
 https://www.nvidia.com/en-us/data-center/l4/
+
+Test Runs:
+40 tokens - 20.75 seconds
+512 tokens - 258.16 seconds (4.3 minutes), 68.52 seconds 
