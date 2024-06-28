@@ -94,20 +94,6 @@ def configure_settings(embed_model, llm):
 
 def generate_response(model, tokenizer, question):
     try:
-        # # Tokenize the input text
-        # inputs = tokenizer("This is sample text.", return_tensors="pt")
-
-        # # Get model outputs with hidden states
-        # outputs = model(**inputs, output_hidden_states=True)
-
-        # # Extract the hidden states
-        # hidden_states = outputs.hidden_states
-
-        # # Typically, the last hidden state is used as the embedding
-        # embeddings = hidden_states[-1]
-
-        # print(embeddings)
-
         log_time(f"Using device: {device}")
 
         log_time("Tokenizing input...")
@@ -174,46 +160,3 @@ model, tokenizer = initialize_all(model_dir)
 #     else:
 #         print("Failed to generate response.")
 
-# query_engine = index.as_query_engine(llm=Settings.llm, similarity_top_k=5)
-
-# done = False
-# while not done:
-#   print("*"*30)
-#   question = input("Enter your question: ")
-#   response = query_engine.query(question)
-#   print(response)
-#   done = input("End the chat? (y/n): ") == "y"
-
-
-""" RAG Query Engine (In Progress) """
-# # Combine retrieval with generation
-# class RAGQueryEngine:
-#     def __init__(self, retrieval_engine, llm):
-#         self.retrieval_engine = retrieval_engine
-#         self.llm = llm
-
-#     def query(self, question):
-#         # Retrieve relevant documents
-#         relevant_docs = self.retrieval_engine.query(question)
-#         # Use retrieved documents as context for generation
-#         context = "\n".join([doc.text for doc in relevant_docs])
-#         prompt = f"{self.llm.system_prompt}\n\n{context}\n\n{self.llm.query_wrapper_prompt.format(query_str=question)}"
-#         return self.llm.generate(prompt)
-
-
-# # Initialize the RAG query engine
-# retrieval_engine = index.as_query_engine(similarity_top_k=5)
-# rag_query_engine = RAGQueryEngine(retrieval_engine, Settings.llm)
-
-# print("RAG query engine set up.")
-
-"""Using the RAGQueryEngine for querying"""
-
-# done = False
-# while not done:
-#     print("*" * 30)
-#     question = input("Enter your question: ")
-#     response = rag_query_engine.query(question)
-#     print(response)
-#     done = input("End the chat? (y/n): ") == "y"
-# """
