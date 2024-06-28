@@ -1,9 +1,27 @@
 import os
+import time
+import psutil
 from safetensors import safe_open
+
+LLM_MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
+EMBEDDING_MODEL_NAME = "sentence-transformers/multi-qa-MiniLM-L6-cos-v1"
 
 model_save_path = "./models/llm_model"
 
+showMessage = True
 
+# Function to print the current time and a message
+def log_time(message):
+    if showMessage:
+        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
+
+
+# Function to check memory usage
+def check_memory_usage(threshold=80):
+    memory = psutil.virtual_memory()
+    return memory.percent < threshold
+  
+  
 def verify_model():
     # List all safetensor files
     shard_files = [
@@ -26,7 +44,6 @@ def verify_model():
             print(f"Failed to load {shard}: {e}")
 
 
-
 def count_pdfs_in_folder(folder_path):
     total_pdfs = 0
 
@@ -37,7 +54,8 @@ def count_pdfs_in_folder(folder_path):
 
     return total_pdfs
 
-# Example usage:
-folder_path = 'papers/'  # replace with the path to your papers folder
-total_pdfs = count_pdfs_in_folder(folder_path)
-print(f"Total number of PDF documents: {total_pdfs}")
+    # # Example usage:
+    # folder_path = 'papers/'  # replace with the path to your papers folder
+    # total_pdfs = count_pdfs_in_folder(folder_path)
+    # print(f"Total number of PDF documents: {total_pdfs}")
+    

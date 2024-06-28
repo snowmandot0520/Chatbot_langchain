@@ -2,7 +2,6 @@ import os
 import sys
 import time
 import logging
-import psutil
 import faiss
 import numpy as np
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -12,17 +11,8 @@ from llama_index.core import ServiceContext
 from llama_index.core import SimpleDirectoryReader
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-from run_model import log_time, model, tokenizer, device
-
-
-LLM_MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
-EMBEDDING_MODEL_NAME = "sentence-transformers/multi-qa-MiniLM-L6-cos-v1"
-
-
-# Function to check memory usage
-def check_memory_usage(threshold=80):
-    memory = psutil.virtual_memory()
-    return memory.percent < threshold
+from run_model import model, tokenizer, device
+from utils import log_time, check_memory_usage, LLM_MODEL_NAME, EMBEDDING_MODEL_NAME
 
 
 # Function to find all PDF files in a directory and its subdirectories
@@ -36,58 +26,57 @@ def find_all_pdfs(directory):
     return pdf_files
 
 def read_documents():
-  # Specify the directory containing the papers
-  papers_directory = "papers/"
-  
-  logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-  logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
+    # Specify the directory containing the papers
+    papers_directory = "papers/"
+    
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+    logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
-  # Get a list of all PDF files in the directory and its subdirectories
-  pdf_files = find_all_pdfs(papers_directory)
+    # Get a list of all PDF files in the directory and its subdirectories
+    pdf_files = find_all_pdfs(papers_directory)
 
-  # Initialize the documents list
-  documents = []
+    # Initialize the documents list
+    documents = []
 
+    # Batch size for processing PDF files
+    batch_size = 10
 
-  # Batch size for processing PDF files
-  batch_size = 10
-
-  # Process PDF files in batches
-  for i in range(0, len(pdf_files), batch_size):
-      if not check_memory_usage():
-          logging.warning("Memory usage is high, pausing processing.")
-          break
-      batch = pdf_files[i:i+batch_size]
-      for pdf_file in batch:
-          try:
-              reader = SimpleDirectoryReader(input_dir=os.path.dirname(pdf_file), required_exts=".pdf").load_data()
-              documents.extend(reader)
-          except Exception as e:
-              logging.warning(f"Failed to read {pdf_file}: {e}")
-              
-  return documents
+    # Process PDF files in batches
+    for i in range(0, len(pdf_files), batch_size):
+        if not check_memory_usage():
+            logging.warning("Memory usage is high, pausing processing.")
+            break
+        batch = pdf_files[i:i+batch_size]
+        for pdf_file in batch:
+            try:
+                reader = SimpleDirectoryReader(input_dir=os.path.dirname(pdf_file), required_exts=".pdf").load_data()
+                documents.extend(reader)
+            except Exception as e:
+                logging.warning(f"Failed to read {pdf_file}: {e}")
+                
+    return documents
 
 def save_embedding_model(documents):
 
-  embeddings_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+    embeddings_model = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
 
-  # Extract text from documents
-  texts = [doc.text for doc in documents]
+    # Extract text from documents
+    texts = [doc.text for doc in documents]
 
-  # Generate embeddings for the texts
-  embeddings = [embeddings_model.embed_query(text) for text in texts]
-  embeddings_array = np.array(embeddings)
+    # Generate embeddings for the texts
+    embeddings = [embeddings_model.embed_query(text) for text in texts]
+    embeddings_array = np.array(embeddings)
 
-  # Initialize FAISS index
-  dimension = embeddings_array.shape[1]
-  index = faiss.IndexFlatL2(dimension)
-  index.add(embeddings_array)
+    # Initialize FAISS index
+    dimension = embeddings_array.shape[1]
+    index = faiss.IndexFlatL2(dimension)
+    index.add(embeddings_array)
 
-  # Save the index and responses
-  faiss.write_index(index, 'models/index.faiss')
-  np.save('models/responses.npy', texts)
-  
-  return embeddings_model
+    # Save the index and responses
+    faiss.write_index(index, 'models/index.faiss')
+    np.save('models/responses.npy', texts)
+    
+    return embeddings_model
 
 def load_embedding_model():
     # Load FAISS index and responses

@@ -6,20 +6,10 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
 from llama_index.core import PromptTemplate, Settings
 from llama_index.llms.huggingface import HuggingFaceLLM
-
-showMessage = True
-
-LLM_MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
+from utils import log_time, LLM_MODEL_NAME, EMBEDDING_MODEL_NAME
 
 # GPU acceleration with metal on Mac
 device = torch.device("metal") if torch.cuda.is_available() else torch.device("cpu")
-
-
-# Function to print the current time and a message
-def log_time(message):
-    if showMessage:
-        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
-
 
 # Load the vector index
 def load_index(directory_path):
