@@ -139,11 +139,16 @@ def main():
     # input_text = "If a patient's fasting blood glucose levels are 120 mg/dl, how likely is it that they have diabetes?"
     # input_text = "How are Convolutional Neural Networks used in predicting blood glucose levels?"
     # input_text = "What is mitochondrial dysfunction and how can you prevent it?"
-    input_text = "Explain in simple terms: What is DAE-ConvBiLSTM?"
-    print(input_text)
-    best_context = find_best_response(input_text)
-    print("Context: " + best_context)
-    response = generate_response_from_context(model, tokenizer, input_text, best_context)
-    print("Answer: " + response)
+    # input_text = "Explain in simple terms: What is DAE-ConvBiLSTM?"
+    while True:
+        input_text = input("Enter your question or type 'exit' to quit: ")
+        if input_text == 'exit':
+            break
+        print(input_text)
+        best_context = find_best_response(input_text)
+        print("Context: " + best_context)
+        response = generate_response_from_context(model, tokenizer, input_text, best_context)
+        print("Answer: " + response)
+    
 
 
