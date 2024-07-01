@@ -63,7 +63,15 @@ I tested the LLM's responses to some sample questions relevant to the pdf papers
 
 I ran the model on both my Macbook Air and Google Collab. Running it on my computer takes significantly longer than running it on Google Collab.
 
-The detailed report of the runtimes and responses from the LLM can be found here: [papers/README.md](papers/README.md)
+The detailed report of the runtimes and responses from the LLM can be found here: [reports/README.md](reports/README.md)
+
+## RAG (In progress)
+
+I implemented RAG (Retrieval-augmented generation) to better improve the accuracy of the responses. RAG references an authoritative knowledge base outside of the training data before generating a response.
+
+In this case, it would retrive the most relevant section of a research paper in papers/ to add as the context in the prompt.
+
+The code for RAG is implemented in _rag.py_, and a detailed report of responses using RAG can be found in [reports/RAG/README.md](reports/RAG/README.md)
 
 ## Dependencies
 
