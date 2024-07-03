@@ -27,6 +27,7 @@ papers/*/
 *.pkl
 *.safetensors
 *.faiss
+*.npy
 
 .venv
 venv
