@@ -48,7 +48,7 @@ const HackerText = ({ text, styles }) => {
       data-value={text}
       onMouseEnter={randomizeText}
       onMouseLeave={resetText}
-      className={`cursor-pointer font-mono text-white transition-all duration-150 ease-in ${styles}`}
+      className={`cursor-pointer font-mono text-gray-950 transition-all duration-150 ease-in ${styles}`}
     >
       {displayText}
     </h1>
